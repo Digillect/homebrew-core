@@ -1,8 +1,8 @@
 class Sunstone < Formula
-  desc "Ruby-style DSL preprocessor for Kubernetes resource manifests"
+  desc "Declarative language for Kubernetes resource manifests and Helm charts"
   homepage "https://github.com/digillect/sunstone"
-  url "https://github.com/digillect/sunstone/archive/v0.1.0.tar.gz"
-  sha256 "0910b43d118b0eca2a5d4d05ee39b3a017f6632f10eecc4d6b3eb41576bd9730"
+  url "https://github.com/digillect/sunstone/archive/v0.3.0.tar.gz"
+  sha256 "ffa0061924871a64ef85c089ee6f372d5d2c4ffcafd955bb2cfde9b22dae9406"
 
   head "https://github.com/digillect/sunstone.git"
 
