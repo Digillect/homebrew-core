@@ -1,8 +1,8 @@
 class Sunstone < Formula
   desc "Declarative language for Kubernetes resource manifests and Helm charts"
   homepage "https://github.com/digillect/sunstone"
-  url "https://github.com/digillect/sunstone/archive/v0.3.0.tar.gz"
-  sha256 "ffa0061924871a64ef85c089ee6f372d5d2c4ffcafd955bb2cfde9b22dae9406"
+  url "https://github.com/digillect/sunstone/archive/v0.4.0.tar.gz"
+  sha256 "6f98efa1dfaab12006c68ea16737b8924f4ffdfe7b7cf07885ad0164646db561"
 
   head "https://github.com/digillect/sunstone.git"
 
