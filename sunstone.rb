@@ -1,16 +1,22 @@
 class Sunstone < Formula
   desc "Declarative language for Kubernetes resource manifests and Helm charts"
   homepage "https://github.com/digillect/sunstone"
-  url "https://github.com/digillect/sunstone/archive/v0.6.0.tar.gz"
-  sha256 "b51f37ddb79f85c6d8d4c5f66f35ab8b643214f7511ddaadbcb46fe598f14aa4"
+  url "https://github.com/digillect/sunstone/archive/v0.6.1.tar.gz"
+  sha256 "e4d7d10e2330e3b5c1ed977ba10f36a3cbc61a02f74c1bee48c924bfe0f2a20d"
 
   head "https://github.com/digillect/sunstone.git"
 
   depends_on "ruby" => :build if MacOS.version <= :sierra
 
   def install
-    inreplace "bin/sunstone", "../lib", "../libexec"
+    (buildpath/"sunstone").write <<~EOS
+      #!/bin/sh
 
+      export BUNDLE_GEMFILE="#{libexec}/Gemfile"
+      
+      /usr/bin/env ruby "#{libexec}/sunstone.rb" $*
+    EOS
+    
     ENV["GEM_HOME"] = buildpath
     ENV["BUNDLE_PATH"] = buildpath
     ENV["BUNDLE_GEMFILE"] = buildpath/"Gemfile"
@@ -20,7 +26,7 @@ class Sunstone < Formula
     bundle = Dir["#{buildpath}/**/bundle"].last
     system bundle, "install", "--without", "development", "test"
 
-    bin.install "bin/sunstone"
+    bin.install "sunstone"
     libexec.install Dir["lib/*"], "gems", "Gemfile", "Gemfile.lock"
   end
 
