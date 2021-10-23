@@ -1,33 +1,34 @@
 class Sunstone < Formula
   desc "Declarative language for Kubernetes resource manifests and Helm charts"
   homepage "https://github.com/digillect/sunstone"
-  url "https://github.com/digillect/sunstone/archive/v0.7.5.tar.gz"
-  sha256 "81650bce27659a7d3f1a357fd8698a549e75e544717a5bae8427e4c6566607ca"
+  url "https://github.com/digillect/sunstone/archive/v0.7.6.tar.gz"
+  sha256 "e901ecc495a4e61dd22c76324a378cf4cc5bb41d6224cc55d408c4370e7dd1fd"
 
   head "https://github.com/digillect/sunstone.git"
 
-  depends_on "ruby" => :build if MacOS.version <= :sierra
+  depends_on "ruby" => "3.0"
 
   def install
     (buildpath/"sunstone").write <<~EOS
       #!/bin/sh
 
-      export BUNDLE_GEMFILE="#{libexec}/Gemfile"
-      
+      export BUNDLE_GEMFILE="#{libexec}/gems.rb"
+
       /usr/bin/env ruby "#{libexec}/sunstone.rb" $*
     EOS
-    
+
     ENV["GEM_HOME"] = buildpath
     ENV["BUNDLE_PATH"] = buildpath
-    ENV["BUNDLE_GEMFILE"] = buildpath/"Gemfile"
+    ENV["BUNDLE_GEMFILE"] = buildpath/"gems.rb"
 
     system "gem", "install", "bundler"
 
     bundle = Dir["#{buildpath}/**/bundle"].last
-    system bundle, "install", "--without", "development", "test"
+    system bundle, "config", "set", "without", "development", "test"
+    system bundle, "install"
 
     bin.install "sunstone"
-    libexec.install Dir["lib/*"], "gems", "Gemfile", "Gemfile.lock"
+    libexec.install Dir["lib"], "sunstone.rb", "gems", "gems.rb", "gems.locked"
   end
 
   test do
